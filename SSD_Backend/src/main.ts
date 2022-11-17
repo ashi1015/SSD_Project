@@ -10,22 +10,18 @@ import { NestFactory } from '@nestjs/core';
 
 async function bootstrap() {
   const server = express();
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, new ExpressAdapter(server));
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, new ExpressAdapter(server), { cors : true });
+   //const app = await NestFactory.create<NestExpressApplication>(AppModule, { cors : true });
   await app.init();
   app.enableCors();
 
-  // const sslServer = https.createServer({
-  //   key: fs.readFileSync(path.join(__dirname, '../cert', 'key.pem')),
-  //   cert: fs.readFileSync(path.join(__dirname, '../cert', 'cert.pem')),
-  // },server)
-
   const sslServer = https.createServer({
-    key: '',
-    cert: '',
+    key: fs.readFileSync(path.join(__dirname, '../cert', 'key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, '../cert', 'cert.pem')),
   },server)
 
   //HTTP 
-  //await app.listen(3000); 
+  // await app.listen(process.env.PORT || 3000); 
 
   //HTTPS
   sslServer.listen(process.env.PORT || 3000, () => console.log("Secure Server on port 3000"));

@@ -36,16 +36,7 @@ import { v4 as uuidv4 } from 'uuid';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),
-    // MulterModule.register({
-    //   storage: diskStorage({
-    //     destination: './uploads',
-    //     filename: (req, file, cb) => {
-    //       const ext = extname(file.originalname);
-    //       const fileName = `${file.originalname}-${Date.now() + '-' + Math.round(Math.random() * 1e9)}${ext}`;
-    //       cb(null, fileName);
-    //     },
-    //   })
-    // }),
+
     MulterModule.registerAsync({
       useClass: GridFsMulterConfigService,
   }),
@@ -57,9 +48,7 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(isAuthenticated)
-      // .exclude(
-      //   { path: '/api/v1/message', method: RequestMethod.GET }
-      // )
+    
       .forRoutes(MessageController, FileController);
   }
 }

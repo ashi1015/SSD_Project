@@ -12,6 +12,7 @@ const key = crypto.createHash('sha512').update(secret_key, 'utf-8').digest('hex'
 const iv = crypto.createHash('sha512').update(secret_iv, 'utf-8').digest('hex').substr(0, 16);
 
 //Encrypt method
+//creating a cipher using secret key, iv, and text
 function encrypt(text) {
     let cipher = crypto.createCipheriv(algorithm, Buffer.from(key), iv);
     let encrypted = cipher.update(text);
